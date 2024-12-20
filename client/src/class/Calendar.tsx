@@ -17,7 +17,7 @@ export class Calendar {
     renderCalendar(){
         let count = 0
         let week = []
-        const mes = []
+        let mes = []
         
 
         for(let i = 0; i < this.espaciosPrimeros; i ++){
@@ -39,7 +39,7 @@ export class Calendar {
             week.push("")
         }
         
-
+        console.log(mes)
         return mes
     }
 }
