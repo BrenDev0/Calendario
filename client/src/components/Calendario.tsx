@@ -5,8 +5,10 @@ const Calendario = () => {
     const [mes, setMes] = useState(new Date().getMonth() + 1)
     const [año, setAño] = useState(new Date().getFullYear()) 
     const [calendario, setCalendario] = useState(new Calendar(mes, año))
+    const [content, setcontent] = useState(calendario.renderCalendar())
     const diasDeLaSemana = ["Domingo" ,"Lunes", "Martes", "Miercoles", "Jueves" , "Viernes", "Sabado"]
     const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "julio", "Agosto", "septiembre", "Octubre", "Noviembre", "Diciembre"]
+    console.log(calendario.renderCalendar())
 
     return (
         <table className="w-full h-full">
@@ -23,9 +25,19 @@ const Calendario = () => {
             </thead>
             <tbody>
                 {
-                   <tr>
-                    <td>{}</td>
-                   </tr> 
+                   content.map((semana) =>{
+                    return (
+                        <tr className="w-full">
+                            {
+                                semana.map((dia) => {
+                                    return(
+                                        <td className="w-full">{dia}</td>
+                                    )
+                                })
+                            }
+                        </tr>
+                    )
+                   })
                 }
             </tbody>
         </table>

@@ -18,6 +18,7 @@ export class Calendar {
         let count = 0
         let week = []
         const mes = []
+        
 
         for(let i = 0; i < this.espaciosPrimeros; i ++){
             week.push("")
@@ -25,7 +26,7 @@ export class Calendar {
         }
 
         for(let i = 1; i <= this.contaDeDias; i ++){
-            if(count != 7){
+            if(count < 7){
                 week.push(i)
             } else {
                 mes.push(week)
@@ -37,6 +38,7 @@ export class Calendar {
         for(let i = 0; i < this.espaciosFinales; i ++){
             week.push("")
         }
+        
 
         return mes
     }
