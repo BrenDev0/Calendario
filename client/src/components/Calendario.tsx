@@ -1,4 +1,4 @@
-import  React, { ChangeEventHandler, useEffect, useState } from "react"
+import  React, { useEffect, useState } from "react"
 import { Calendar } from "../class/Calendar"
 
 const Calendario = () => {
@@ -24,7 +24,7 @@ const Calendario = () => {
     
 
     return (
-        <table className="w-[70%] h-[90%]">
+        <table className="w-[70%] h-[90%] table-fixed">
             <caption>
                 <select onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setMes(parseInt(e.target.value))} name="mes">{meses.map((m: string) => {
                     if(meses.indexOf(m) + 1 == mes){
@@ -44,7 +44,7 @@ const Calendario = () => {
                 </select>
             </caption>
             <thead>
-                <tr>
+                <tr className="">
                     {
                         diasDeLaSemana.map((dia) => {
                             return(
@@ -65,13 +65,13 @@ const Calendario = () => {
                                     key++
                                     if(typeof dia != 'number'){
                                         return(
-                                            <td className="border-solid border-2 border-[--grey] text-center align-top" key={key}></td>
+                                            <td className="border-solid border-2 border-[--grey]" key={key}></td>
                                         )
                                     }
 
                                     return(
-                                        <td className="border-solid border-2 border-[--grey] text-center align-top" key={key}>
-                                            <button className="w-full h-full">{dia}</button>
+                                        <td className="border-solid border-2 border-[--grey] h-[100px]" key={key}>
+                                            <button className="w-full h-full block flex justify-center items-start hover:bg-[--grey]">{dia}</button>
                                         </td>
                                     )
                                 })

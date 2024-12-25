@@ -9,9 +9,9 @@ const SideBar = () => {
                 {
                     horas.map((hora) =>{
                         return(
-                            <div>
-                                <div className="h-[100px] border-b-2 border-dashed border-[--grey] align-center">{hora}</div>
-                                <div className="h-[100px] border-b-2 border-solid border-[--grey] align-center"></div>
+                            <div key={hora}>
+                                <div className="h-[75px] border-b border-dashed border-[--grey] align-center">{hora}</div>
+                                <div className="h-[75px] border-b border-solid border-[--grey]"></div>
                             </div>
                         )
                     })
