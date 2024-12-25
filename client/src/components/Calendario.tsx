@@ -1,22 +1,54 @@
-import { useState } from "react"
+import  React, { ChangeEventHandler, useEffect, useState } from "react"
 import { Calendar } from "../class/Calendar"
 
 const Calendario = () => {
-    const [mes, setMes] = useState(new Date().getMonth() + 1)
-    const [año, setAño] = useState(new Date().getFullYear()) 
-    const [calendario, setCalendario] = useState(new Calendar(mes, año))
-    const diasDeLaSemana = ["Domingo" ,"Lunes", "Martes", "Miercoles", "Jueves" , "Viernes", "Sabado"]
+    const [mes, setMes] = useState<number>(new Date().getMonth() + 1)
+    const [año, setAño] = useState<number>(new Date().getFullYear()) 
+    const [calendario, setCalendario] = useState<Array<any>>([])
+    const diasDeLaSemana = ["Dom" ,"Lun", "Mar", "Mie", "Jue" , "Vie", "Sab"]
     const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "julio", "Agosto", "septiembre", "Octubre", "Noviembre", "Diciembre"]
-    console.log(calendario.renderCalendar())
+    
+    const autoRender = () => {
+        let autoCalendario = new Calendar(mes, año).renderCalendar()
+        setCalendario(autoCalendario)
+    }
+
+    useEffect(() =>{
+        autoRender()
+    }, [])
+
+    useEffect(() => {
+        autoRender()
+    }, [mes, año])
+
+    
 
     return (
-        <table className="w-full h-full">
+        <table className="w-[70%] h-[90%]">
+            <caption>
+                <select onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setMes(parseInt(e.target.value))} name="mes">{meses.map((m: string) => {
+                    if(meses.indexOf(m) + 1 == mes){
+                        return(
+                            <option selected key={m} value={meses.indexOf(m) + 1}>{m}</option>
+                        )
+                    }
+
+                    return(
+                        <option key={m} value={meses.indexOf(m) + 1}>{m}</option>
+                    )
+                })}</select>
+                <select onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>setAño(parseInt(e.target.value))} name="año">
+                    <option value="2023">2023</option>
+                    <option value="2024">2024</option>
+                    <option value="2025">2025</option>
+                </select>
+            </caption>
             <thead>
                 <tr>
                     {
                         diasDeLaSemana.map((dia) => {
                             return(
-                                <th>{dia}</th>
+                                <th className="" key={dia}>{dia}</th>
                             )
                         })
                     }
@@ -24,19 +56,29 @@ const Calendario = () => {
             </thead>
             <tbody>
                 {
-                   calendario.renderCalendar().map((semana) =>{
-                    return (
-                        <tr className="w-full">
+                  calendario.map((semana) => {
+                    let key = 50
+                    return(
+                        <tr className="" key={calendario.indexOf(semana)}>
                             {
-                                semana.map((dia) => {
+                                semana.map((dia: number) =>{
+                                    key++
+                                    if(typeof dia != 'number'){
+                                        return(
+                                            <td className="border-solid border-2 border-[--grey] text-center align-top" key={key}></td>
+                                        )
+                                    }
+
                                     return(
-                                        <td className="w-full">{dia}</td>
+                                        <td className="border-solid border-2 border-[--grey] text-center align-top" key={key}>
+                                            <button className="w-full h-full">{dia}</button>
+                                        </td>
                                     )
                                 })
                             }
                         </tr>
                     )
-                   })
+                  })
                 }
             </tbody>
         </table>
