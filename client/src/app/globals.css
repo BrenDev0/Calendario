@@ -3,7 +3,10 @@
 @tailwind utilities;
 
 :root{
-    --grey: #8b8589 
+    --grey: #8b8589;
+    --modal: rgba(139, 133, 137,.5);
+    --white: rgb(248, 250, 252);
+    --forms: rgba(139, 133, 137,.17)
 }
 
 *{
@@ -16,7 +19,14 @@
 body{
     width: 100%;
     height: 100dvh;
+    background-color: var(--white);
 }
+
+.sidebar-selected-btn{
+    background-color: var(--modal);
+}
+   
+   
 
 
 

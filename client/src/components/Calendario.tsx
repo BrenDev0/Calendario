@@ -1,16 +1,15 @@
 import  React, { useEffect, useState } from "react"
 import { Calendar } from "../class/Calendar"
+import { useCalendar } from "@/context/CalendarContext"
 
 const Calendario = () => {
-    const [mes, setMes] = useState<number>(new Date().getMonth() + 1)
-    const [año, setAño] = useState<number>(new Date().getFullYear()) 
-    const [calendario, setCalendario] = useState<Array<any>>([])
+    const { dia, setDia, mes, setMes, año, setAño, contenidoCalendario, setContenidoCalendario} = useCalendar()
     const diasDeLaSemana = ["Dom" ,"Lun", "Mar", "Mie", "Jue" , "Vie", "Sab"]
     const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "julio", "Agosto", "septiembre", "Octubre", "Noviembre", "Diciembre"]
     
     const autoRender = () => {
-        let autoCalendario = new Calendar(mes, año).renderCalendar()
-        setCalendario(autoCalendario)
+        let autoLoad = new Calendar(mes, año).renderCalendar()
+        setContenidoCalendario(autoLoad)
     }
 
     useEffect(() =>{
@@ -21,23 +20,21 @@ const Calendario = () => {
         autoRender()
     }, [mes, año])
 
-    
+    const CalendarClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+        const button = e.target as HTMLButtonElement
+        setDia(parseInt(button.value))
+
+    }
 
     return (
         <table className="w-[70%] h-[90%] table-fixed">
-            <caption>
-                <select onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setMes(parseInt(e.target.value))} name="mes">{meses.map((m: string) => {
-                    if(meses.indexOf(m) + 1 == mes){
-                        return(
-                            <option selected key={m} value={meses.indexOf(m) + 1}>{m}</option>
-                        )
-                    }
-
+            <caption className="mb-5">
+                <select className="w-[15%] h-[35px] mr-[40px] bg-[--forms] rounded cursor-pointer" defaultValue={mes} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setMes(parseInt(e.target.value))} name="mes">{meses.map((m: string) => {
                     return(
                         <option key={m} value={meses.indexOf(m) + 1}>{m}</option>
                     )
                 })}</select>
-                <select onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>setAño(parseInt(e.target.value))} name="año">
+                <select className="w-[15%] h-[35px] bg-[--forms] rounded cursor-pointer" defaultValue={año} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setAño(parseInt(e.target.value))} name="año">
                     <option value="2023">2023</option>
                     <option value="2024">2024</option>
                     <option value="2025">2025</option>
@@ -46,9 +43,9 @@ const Calendario = () => {
             <thead>
                 <tr className="">
                     {
-                        diasDeLaSemana.map((dia) => {
+                        diasDeLaSemana.map((i) => {
                             return(
-                                <th className="" key={dia}>{dia}</th>
+                                <th className="" key={i}>{i}</th>
                             )
                         })
                     }
@@ -56,14 +53,14 @@ const Calendario = () => {
             </thead>
             <tbody>
                 {
-                  calendario.map((semana) => {
+                  contenidoCalendario.map((semana) => {
                     let key = 50
                     return(
-                        <tr className="" key={calendario.indexOf(semana)}>
+                        <tr className="" key={contenidoCalendario.indexOf(semana)}>
                             {
-                                semana.map((dia: number) =>{
+                                semana.map((d: number) =>{
                                     key++
-                                    if(typeof dia != 'number'){
+                                    if(typeof d != 'number'){
                                         return(
                                             <td className="border-solid border-2 border-[--grey]" key={key}></td>
                                         )
@@ -71,7 +68,7 @@ const Calendario = () => {
 
                                     return(
                                         <td className="border-solid border-2 border-[--grey] h-[100px]" key={key}>
-                                            <button className="w-full h-full block flex justify-center items-start hover:bg-[--grey]">{dia}</button>
+                                            <button value={d} onClick={CalendarClick}  className="w-full h-full block flex justify-center items-start hover:bg-[--modal]">{d}</button>
                                         </td>
                                     )
                                 })

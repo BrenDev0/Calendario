@@ -1,0 +1,1 @@
+export const plus = <i className="fas fa-plus"></i>
