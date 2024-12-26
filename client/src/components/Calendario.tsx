@@ -22,7 +22,21 @@ const Calendario = () => {
 
     const CalendarClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         const button = e.target as HTMLButtonElement
+        const calendarDays = document.getElementsByClassName("calendar-day")
+        const tabs = document.getElementsByClassName("sidebar-btn")
+        const selectTab = document.getElementsByClassName("sidebar-btn")[0]
         setDia(parseInt(button.value))
+
+        for(let i = 0; i < tabs.length; i++){
+            tabs[i].className = tabs[i].className.replace(" sidebar-selected-btn", "")
+        }
+
+        for(let i = 0; i < calendarDays.length; i++){
+            calendarDays[i].className = calendarDays[i].className.replace(" sidebar-selected-btn", "")
+        }
+
+        selectTab.className += " sidebar-selected-btn"
+        button.className += " sidebar-selected-btn"
 
     }
 
@@ -68,7 +82,7 @@ const Calendario = () => {
 
                                     return(
                                         <td className="border-solid border-2 border-[--grey] h-[100px]" key={key}>
-                                            <button value={d} onClick={CalendarClick}  className="w-full h-full block flex justify-center items-start hover:bg-[--modal]">{d}</button>
+                                            <button value={d} onClick={CalendarClick}  className="calendar-day w-full h-full block flex justify-center items-start hover:bg-[--modal]">{d}</button>
                                         </td>
                                     )
                                 })

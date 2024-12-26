@@ -24,6 +24,7 @@ body{
 
 .sidebar-selected-btn{
     background-color: var(--modal);
+    color: var(--white)
 }
    
    

@@ -15,7 +15,7 @@ interface CalendarState {
 }
 
 const defaultValue: CalendarState = {
-    dia: new Date().getDay(),
+    dia: new Date().getDate(),
     setDia: () => new Error("No Context Provided"),
     mes: new Date().getMonth() + 1,
     setMes: () => new Error("No Context Provided"),
@@ -48,4 +48,12 @@ export const CalendarProvider = ({children}: {children: ReactNode}) => {
 }
 
 
-export const useCalendar = () => useContext(CalendarContext)
+export const useCalendar = () => {
+    const context = useContext(CalendarContext)
+
+    if(!context){
+        throw new Error('useCalendar debe ser usado dentro de DataProvider')
+    }
+
+    return context
+}
