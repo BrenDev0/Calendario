@@ -24,7 +24,7 @@ class Collection_Request:
                     "notes": row[6]
                 })
 
-                return JSONResponse(content={"data": response_data})
+            return JSONResponse(content={"data": response_data})
 
         
         except sqlite3.Error as e:
