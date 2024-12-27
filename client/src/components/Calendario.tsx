@@ -3,7 +3,7 @@ import { Calendar } from "../class/Calendar"
 import { useCalendar } from "@/context/CalendarContext"
 
 const Calendario = () => {
-    const { dia, setDia, mes, setMes, año, setAño, contenidoCalendario, setContenidoCalendario} = useCalendar()
+    const { dia, setDia, mes, setMes, año, setAño, contenidoCalendario, setContenidoCalendario, dataCalendario} = useCalendar()
     const diasDeLaSemana = ["Dom" ,"Lun", "Mar", "Mie", "Jue" , "Vie", "Sab"]
     const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "julio", "Agosto", "septiembre", "Octubre", "Noviembre", "Diciembre"]
     
@@ -19,6 +19,7 @@ const Calendario = () => {
     useEffect(() => {
         autoRender()
     }, [mes, año])
+    
 
     const CalendarClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         const button = e.target as HTMLButtonElement

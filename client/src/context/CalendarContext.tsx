@@ -1,7 +1,7 @@
 'use client'
 
 import { Calendar } from "@/class/Calendar"
-import React, { createContext, SetStateAction, ReactNode, useContext, useState } from "react"
+import React, { createContext, SetStateAction, ReactNode, useContext, useState, useEffect } from "react"
 
 interface CalendarState {
     dia: number,
@@ -11,7 +11,10 @@ interface CalendarState {
     año: number,
     setAño: React.Dispatch<SetStateAction<number>>,
     contenidoCalendario: Array<any>,
-    setContenidoCalendario: React.Dispatch<SetStateAction<Array<any>>>
+    setContenidoCalendario: React.Dispatch<SetStateAction<Array<any>>>,
+    dataCalendario: Array<any>,
+    setDataCalendario: React.Dispatch<SetStateAction<Array<any>>>
+
 }
 
 const defaultValue: CalendarState = {
@@ -22,7 +25,9 @@ const defaultValue: CalendarState = {
     año: new Date().getFullYear(),
     setAño: () => new Error("No Context Provided"),
     contenidoCalendario: new Calendar(new Date().getMonth() + 1, new Date().getFullYear()).renderCalendar(),
-    setContenidoCalendario: () => console.log('No Context Provided')
+    setContenidoCalendario: () => console.log('No Context Provided'),
+    dataCalendario: [],
+    setDataCalendario: () => console.log('No Context Provided')
 }
 
 const CalendarContext = createContext<CalendarState>(defaultValue)
@@ -32,12 +37,20 @@ export const CalendarProvider = ({children}: {children: ReactNode}) => {
     const [mes, setMes] = useState<number>(defaultValue.mes)
     const [año, setAño] = useState<number>(defaultValue.año)
     const [contenidoCalendario, setContenidoCalendario] = useState<Array<any>>(defaultValue.contenidoCalendario)
+    const [dataCalendario, setDataCalendario] = useState<Array<any>>(defaultValue.dataCalendario)
 
+    useEffect(() => {
+        fetch('http://localhost:8000/api/collection')
+        .then((res) => res.json())
+        .then((data) => setDataCalendario(data))
+    }, [])
+    
     const providerVaules = {
         dia, setDia,
         mes, setMes,
         año, setAño,
-        contenidoCalendario, setContenidoCalendario
+        contenidoCalendario, setContenidoCalendario,
+        dataCalendario, setDataCalendario
     }
 
     return (
