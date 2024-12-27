@@ -28,22 +28,21 @@ class Resource_Request:
 
         try:
             self.cur.execute(sql_read, _id)
-            rescource = self.cur.fetchone()
+            resource = self.cur.fetchone()
 
             response_data = []
+            
+            response_data.append({
+                "_id": resource[0],
+                "date": resource[1],
+                "title": resource[2],
+                "location": resource[3],
+                "start": resource[4],
+                "end": resource[5],
+                "notes": resource[6]
+            })
 
-            for row in rescource:
-                response_data.append({
-                    "_id": row[0],
-                    "date": row[1],
-                    "title": row[2],
-                    "location": row[3],
-                    "start": row[4],
-                    "end": row[5],
-                    "notes": row[6]
-                })
-
-                return JSONResponse(content={"data": response_data})
+            return JSONResponse(content={"data": response_data})
             
         except sqlite3.Error as e:
             return JSONResponse(status_code=500, content={
