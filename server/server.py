@@ -1,33 +1,46 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Form
+from fastapi.middleware.cors import CORSMiddleware
 from config.Database import DataBase
 from classes.Collection_Request import Collection_Request
 from classes.Resource_Request import Resource_Request
-from pydantic import BaseModel
+
+
 
 DataBase()
 
 app = FastAPI()
 
-class Item(BaseModel):
-    title: str
-    location: str
-    day: int
-    month: int
-    year: int
-    start: int
-    end: int
-    notes: str
+origins = [
+    "http://localhost:3000",  # React app (change to your frontend URL)
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all HTTP methods
+    allow_headers=["*"],  # Allow all headers
+)
+
 
 @app.get("/api/collection")
-def collection_request():
-    response = {"message": "test collection"}
+def root():
+    return Collection_Request().read()
 
-    return response
 
-@app.get("/api/resource/{_id}")
-def resource(_id):
-    return {"testid": _id}
 
 @app.post("/api/resource")
-def create_item(item: Item):
-    print(item)
+def create_item(
+    title: str = Form(...),
+    location: str = Form(...),
+    start: int = Form(...),
+    end: int = Form(...),
+    notes: str = Form(...),
+    date: str = Form(...)
+
+):
+    return Resource_Request().create(date, title, location, start, end, notes);
+
+@app.get("/api/resource/{_id}")
+def get_item(_id):
+    return Resource_Request().read(_id)

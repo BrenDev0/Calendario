@@ -1,25 +1,37 @@
 import { useCalendar } from "@/context/CalendarContext"
 import { useGlobal } from "@/context/GlobalContext"
-import { useState } from "react"
+
 
 const FormModal = () => {
     const { formModal, setFormModal }  = useGlobal()
     const { dia, mes, año } = useCalendar()
 
-    const [formData, setFormDate] = useState<object>({
-        day: dia,
-        month: mes,
-        year: año,
-        title: "",
-        location: "",
-        start: "",
-        end: "",
-        notes: ""
-    })
+    async function handleSubmit(e: React.FormEvent<HTMLFormElement>){
+        e.preventDefault();
+        const form = e.target as HTMLFormElement
+        const data = new FormData(form);
+        const date = new Date(dia, mes, año)
+        data.append("date", `${dia}/${mes}/${año}`)
+
+        try {
+           const res = await fetch('http://localhost:8000/api/resource', {
+                method: 'POST',
+                body: data
+            });
+
+            const resData = await res.json();
+            console.log(resData)
+           
+            setFormModal(formModal ? false : true)
+
+        } catch (error) {
+            console.log(error)
+        }
+    }    
     
     return (
         <div className="w-full h-full flex flex-col justify-center items-center absolute bg-[--modal]">
-            <form method="post" className="h-3/4 w-1/2 bg-[--white] flex flex-col justify-around items-center rounded-2xl">
+            <form onSubmit={handleSubmit} className="h-3/4 w-1/2 bg-[--white] flex flex-col justify-around items-center rounded-2xl">
             <p className="text-[--grey]">{`${dia} / ${mes} / ${año}`}</p>
                 <section className="w-full h-[25%] flex justify-around items-center">
                     <div className="w-[45%] h-full flex flex-col justify-evenly items-center bg-[--forms] rounded-lg">
@@ -30,9 +42,9 @@ const FormModal = () => {
                     </div>
                     <div className="w-[45%] h-full flex flex-col justify-evenly items-center bg-[--forms] rounded-lg">
                         <label htmlFor="start">Empieza</label>
-                        <input type="text" name="start" placeholder="empieza" id="start" className="w-[95%] h-[17%] pl-3 rounded" />
+                        <input type="number" name="start" placeholder="empieza" id="start" className="w-[95%] h-[17%] pl-3 rounded" />
                         <label htmlFor="end">Termina</label>
-                        <input type="text" name="end" id="end" placeholder="termina" className="w-[95%] h-[17%] pl-3 rounded" />
+                        <input type="number" name="end" id="end" placeholder="termina" className="w-[95%] h-[17%] pl-3 rounded" />
                     </div>
                 </section>
                 <section className="w-[95%] h-[35%] flex flex-col justify-around items-center bg-[--forms] rounded-lg">
@@ -41,11 +53,11 @@ const FormModal = () => {
                 </section>
                 <section className="w-full h-[5%] flex justify-end items-center">
                     <button type="submit" className="w-[15%] h-full bg-[--forms] mr-10  rounded">Agregar</button>
-                    <button className="w-[15%] h-full bg-[--forms] mr-10  rounded" onClick={() => formModal ? setFormModal(false) : setFormModal(true) }>Cancelar</button>
+                    <button className="w-[15%] h-full bg-[--forms] mr-10  rounded" onClick={() => setFormModal(formModal ? false : true) }>Cancelar</button>
                 </section>
             </form>
         </div>
     )
 }
 
-export default FormModal
+export default FormModal 

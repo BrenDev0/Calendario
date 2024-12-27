@@ -12,9 +12,9 @@ const SideBar = () => {
     return (
         <div className="w-[25%] h-[95%] h border-red border-2 border-solid">
             <section className="h-[5%] flex justify-between items-center border-b-2 border-solid border[--grey]">
-                <button onClick={handleSidebar} className="sidebar-btn w-full h-full flex flex-col justify-center items-center text-[--grey] sidebar-selected-btn">{`Horario para ${dia}/${mes}/${año}`}</button>
-                <button onClick={handleSidebar} className="sidebar-btn w-full h-full flex flex-col justify-center items-center text-[--grey] border-r border-l border-dashed border-[--grey]">Hoy</button>
-                <button className="sidebar-btn w-full h-full flex justify-center items-center text-[--grey]" onClick={() => formModal ? setFormModal(false) : setFormModal(true)}>
+                <button onClick={handleSidebar} className="sidebar-btn w-full h-full flex flex-col justify-center items-center text-[--grey]">{`Horario para ${dia}/${mes}/${año}`}</button>
+                <button onClick={handleSidebar} className="sidebar-btn w-full h-full flex flex-col justify-center items-center text-[--grey] border-r border-l border-dashed border-[--grey] sidebar-selected-btn">Hoy</button>
+                <button className="sidebar-btn w-full h-full flex justify-center items-center text-[--grey]" onClick={() => setFormModal(formModal ? false : true)}>
                     {plus}
                 </button>
             </section>

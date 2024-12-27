@@ -78,13 +78,19 @@ const Calendario = () => {
                                         return(
                                             <td className="border-solid border-2 border-[--grey]" key={key}></td>
                                         )
+                                    } else if(d === dia) {
+                                        return (
+                                            <td className="border-solid border-2 border-[--grey] h-[100px]" key={key}>
+                                                <button value={d} onClick={CalendarClick}  className="calendar-day w-full h-full block flex justify-center items-start hover:bg-[--modal] sidebar-selected-btn">{d}</button>
+                                            </td>
+                                        )
+                                    } else {
+                                        return (
+                                            <td className="border-solid border-2 border-[--grey] h-[100px]" key={key}>
+                                                <button value={d} onClick={CalendarClick}  className="calendar-day w-full h-full block flex justify-center items-start hover:bg-[--modal]">{d}</button>
+                                            </td>
+                                        )
                                     }
-
-                                    return(
-                                        <td className="border-solid border-2 border-[--grey] h-[100px]" key={key}>
-                                            <button value={d} onClick={CalendarClick}  className="calendar-day w-full h-full block flex justify-center items-start hover:bg-[--modal]">{d}</button>
-                                        </td>
-                                    )
                                 })
                             }
                         </tr>

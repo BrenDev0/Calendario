@@ -6,7 +6,9 @@ class DataBase:
         conn.execute("PRAGMA foreign_keys = ON");
         self.cur =  conn.cursor();
         self.create_table()
+        conn.close()
 
     def create_table(self):
-        self.cur.execute("""CREATE TABLE IF NOT EXISTS Calendario ( _id INTEGER PRIMARY KEY AUTOINCREMENT, day INT, month INT, year INT, name TEXT, start TIME, end TIME, notes TEXT)""");
+        self.cur.execute("""CREATE TABLE IF NOT EXISTS Calendario ( _id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT, title TEXT, location TEXT, start TIME, end TIME, notes TEXT)""");
+        return
 
