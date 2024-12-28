@@ -11,15 +11,15 @@ DataBase()
 app = FastAPI()
 
 origins = [
-    "http://localhost:3000",  # React app (change to your frontend URL)
+    "http://localhost:3000", 
 ]
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["*"],  # Allow all HTTP methods
-    allow_headers=["*"],  # Allow all headers
+    allow_methods=["*"],  
+    allow_headers=["*"], 
 )
 
 
