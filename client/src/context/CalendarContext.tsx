@@ -1,7 +1,8 @@
 'use client'
-
+import { Collection } from "@/interface/types"
 import { Calendar } from "@/class/Calendar"
 import React, { createContext, SetStateAction, ReactNode, useContext, useState, useEffect } from "react"
+
 
 interface CalendarState {
     hoy: string,
@@ -14,8 +15,9 @@ interface CalendarState {
     setAño: React.Dispatch<SetStateAction<number>>,
     contenidoCalendario: Array<any>,
     setContenidoCalendario: React.Dispatch<SetStateAction<Array<any>>>,
-    dataCalendario: Array<any>,
-    setDataCalendario: React.Dispatch<SetStateAction<Array<any>>>
+    dataCalendario: Collection;
+    setDataCalendario: React.Dispatch<SetStateAction<Collection>>
+    collectionRequest: () => Promise<void>
 
 }
 
@@ -29,9 +31,10 @@ const defaultValue: CalendarState = {
     año: new Date().getFullYear(),
     setAño: () => {throw new Error("No Context Provided")},
     contenidoCalendario: new Calendar(new Date().getMonth() + 1, new Date().getFullYear()).renderCalendar(),
-    setContenidoCalendario: () => new Error('No Context Provided'),
-    dataCalendario: [],
-    setDataCalendario: () => new Error('No Context Provided')
+    setContenidoCalendario: () => () => {throw new Error("No Context Provided")},
+    dataCalendario: {data: []},
+    setDataCalendario: () => () => {throw new Error("No Context Provided")},
+    collectionRequest: () => {throw new Error("No Context Provided")}
 }
 
 const CalendarContext = createContext<CalendarState>(defaultValue)
@@ -42,12 +45,21 @@ export const CalendarProvider = ({children}: {children: ReactNode}) => {
     const [mes, setMes] = useState<number>(defaultValue.mes)
     const [año, setAño] = useState<number>(defaultValue.año)
     const [contenidoCalendario, setContenidoCalendario] = useState<Array<any>>(defaultValue.contenidoCalendario)
-    const [dataCalendario, setDataCalendario] = useState<Array<any>>(defaultValue.dataCalendario)
+    const [dataCalendario, setDataCalendario] = useState<Collection>(defaultValue.dataCalendario)
+
+    async function collectionRequest(){
+        try {
+            const res = await fetch(`http://localhost:8000/api/collection`);
+            const collection = await res.json();
+
+            setDataCalendario(collection)
+        } catch (error) {
+            console.log(error)
+        }
+    } 
 
     useEffect(() => {
-        fetch('http://localhost:8000/api/collection')
-        .then((res) => res.json())
-        .then((data) => setDataCalendario(data))
+        collectionRequest()
     }, [])
     
     const providerVaules = {
@@ -56,7 +68,8 @@ export const CalendarProvider = ({children}: {children: ReactNode}) => {
         mes, setMes,
         año, setAño,
         contenidoCalendario, setContenidoCalendario,
-        dataCalendario, setDataCalendario
+        dataCalendario, setDataCalendario,
+        collectionRequest,
     }
 
     return (

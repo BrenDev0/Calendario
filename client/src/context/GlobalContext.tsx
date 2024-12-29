@@ -3,6 +3,8 @@
 import React, { createContext, SetStateAction, ReactNode, useContext, useState } from "react"
 
 interface GlobalState {
+    tab: number;
+    setTab: React.Dispatch<SetStateAction<number>>;
     formModal: boolean;
     setFormModal: React.Dispatch<SetStateAction<boolean>>;
     handleSidebar(e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void; 
@@ -10,6 +12,8 @@ interface GlobalState {
 }
 
 const defaultValue: GlobalState = {
+    tab: 1,
+    setTab: () => null,
     formModal: false,
     setFormModal: () => null,
     handleSidebar: (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -30,11 +34,13 @@ const defaultValue: GlobalState = {
 const GlobalContext = createContext<GlobalState>(defaultValue)
 
 export const GlobalProvider = ({children}: {children: ReactNode}) => {
+    const [tab, setTab] = useState<number>(defaultValue.tab)
     const [formModal, setFormModal] = useState<boolean>(defaultValue.formModal)
     const handleSidebar = defaultValue.handleSidebar
 
     const providerValues = {
         formModal, setFormModal,
+        tab, setTab,
         handleSidebar
     }
 

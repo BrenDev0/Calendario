@@ -1,9 +1,11 @@
-import  React, { useEffect, useState } from "react"
+import  React, { useEffect} from "react"
 import { Calendar } from "../class/Calendar"
 import { useCalendar } from "@/context/CalendarContext"
+import { useGlobal } from "@/context/GlobalContext"
 
 const Calendario = () => {
     const { dia, setDia, mes, setMes, año, setAño, contenidoCalendario, setContenidoCalendario, dataCalendario} = useCalendar()
+    const { setTab } = useGlobal()
     const diasDeLaSemana = ["Dom" ,"Lun", "Mar", "Mie", "Jue" , "Vie", "Sab"]
     const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "julio", "Agosto", "septiembre", "Octubre", "Noviembre", "Diciembre"]
     
@@ -39,6 +41,7 @@ const Calendario = () => {
         selectTab.className += " sidebar-selected-btn"
         button.className += " sidebar-selected-btn"
 
+        setTab(3)
     }
 
     return (
