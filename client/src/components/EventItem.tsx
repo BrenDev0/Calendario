@@ -25,8 +25,7 @@ const EventItem = ({item}: {item: Evento}) => {
             await fetch(`http://localhost:8000/api/resource/${id}/${field}`,
                 {
                     method: "PUT",
-                    headers: {"Content-Type": "application/json"},
-                    body: JSON.stringify({ data })
+                    body: data
                 }
             );
 
