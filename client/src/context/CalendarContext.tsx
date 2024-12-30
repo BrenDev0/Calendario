@@ -18,6 +18,7 @@ interface CalendarState {
     dataCalendario: Collection;
     setDataCalendario: React.Dispatch<SetStateAction<Collection>>
     collectionRequest: () => Promise<void>
+    resetCalendar: () => void
 
 }
 
@@ -34,7 +35,8 @@ const defaultValue: CalendarState = {
     setContenidoCalendario: () => () => {throw new Error("No Context Provided")},
     dataCalendario: {data: []},
     setDataCalendario: () => () => {throw new Error("No Context Provided")},
-    collectionRequest: () => {throw new Error("No Context Provided")}
+    collectionRequest: () => {throw new Error("No Context Provided")},
+    resetCalendar: () => {throw new Error("No Context Provided")}
 }
 
 const CalendarContext = createContext<CalendarState>(defaultValue)
@@ -58,6 +60,18 @@ export const CalendarProvider = ({children}: {children: ReactNode}) => {
         }
     } 
 
+    const resetCalendar = () => {
+        const calendarDays = document.getElementsByClassName("calendar-day");
+        for(let i = 0; i < calendarDays.length; i++){
+            calendarDays[i].className = calendarDays[i].className.replace(" sidebar-selected-btn", "")
+        }
+
+        setDia(defaultValue.dia);
+        setMes(defaultValue.mes);
+        setAño(defaultValue.año);
+       
+    }
+
     useEffect(() => {
         collectionRequest()
     }, [])
@@ -70,6 +84,7 @@ export const CalendarProvider = ({children}: {children: ReactNode}) => {
         contenidoCalendario, setContenidoCalendario,
         dataCalendario, setDataCalendario,
         collectionRequest,
+        resetCalendar,
     }
 
     return (

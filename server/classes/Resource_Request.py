@@ -57,4 +57,18 @@ class Resource_Request:
         return
     
     def delete(self, _id):
-        return
+        sql_delete = ("""DELETE FROM Calendario WHERE _id = (?)""")
+
+        try:
+            self.cur.execute(sql_delete, (_id,))
+            self.conn.commit()
+            return JSONResponse(content={"message": "Content Deleted"})
+        
+        except sqlite3.Error as e:
+            return JSONResponse(status_code=500, content={
+                "message": f"An error occurred: {str(e)}"
+            })
+        
+        finally:
+            self.conn.close()
+

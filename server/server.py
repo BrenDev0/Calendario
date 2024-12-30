@@ -41,6 +41,12 @@ def create_item(
 ):
     return Resource_Request().create(date, title, location, start, end, notes);
 
+
 @app.get("/api/resource/{_id}")
 def get_item(_id):
     return Resource_Request().read(_id)
+
+
+@app.delete("/api/resource/{_id}")
+def delete_item(_id):
+    return Resource_Request().delete(_id)

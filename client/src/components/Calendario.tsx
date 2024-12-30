@@ -4,7 +4,7 @@ import { useCalendar } from "@/context/CalendarContext"
 import { useGlobal } from "@/context/GlobalContext"
 
 const Calendario = () => {
-    const { dia, setDia, mes, setMes, año, setAño, contenidoCalendario, setContenidoCalendario, dataCalendario} = useCalendar()
+    const { setDia, mes, setMes, año, setAño, contenidoCalendario, setContenidoCalendario, hoy} = useCalendar()
     const { setTab } = useGlobal()
     const diasDeLaSemana = ["Dom" ,"Lun", "Mar", "Mie", "Jue" , "Vie", "Sab"]
     const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "julio", "Agosto", "septiembre", "Octubre", "Noviembre", "Diciembre"]
@@ -14,9 +14,6 @@ const Calendario = () => {
         setContenidoCalendario(autoLoad)
     }
 
-    useEffect(() =>{
-        autoRender()
-    }, [])
 
     useEffect(() => {
         autoRender()
@@ -47,12 +44,12 @@ const Calendario = () => {
     return (
         <table className="w-[70%] h-[90%] table-fixed">
             <caption className="mb-5">
-                <select className="w-[15%] h-[35px] mr-[40px] bg-[--forms] rounded cursor-pointer" defaultValue={mes} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setMes(parseInt(e.target.value))} name="mes">{meses.map((m: string) => {
+                <select className="w-[15%] h-[35px] mr-[40px] bg-[--forms] rounded cursor-pointer" value={mes} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setMes(parseInt(e.target.value))} name="mes">{meses.map((m: string) => {
                     return(
                         <option key={m} value={meses.indexOf(m) + 1}>{m}</option>
                     )
                 })}</select>
-                <select className="w-[15%] h-[35px] bg-[--forms] rounded cursor-pointer" defaultValue={año} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setAño(parseInt(e.target.value))} name="año">
+                <select className="w-[15%] h-[35px] bg-[--forms] rounded cursor-pointer" value={año} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setAño(parseInt(e.target.value))} name="año">
                     <option value="2023">2023</option>
                     <option value="2024">2024</option>
                     <option value="2025">2025</option>
@@ -82,10 +79,10 @@ const Calendario = () => {
                                         return(
                                             <td className="border-solid border-2 border-[--grey]" key={key}></td>
                                         )
-                                    } else if(d === dia) {
+                                    } else if(hoy === `${d}/${mes}/${año}` ) {
                                         return (
                                             <td className="border-solid border-2 border-[--grey] h-[100px]" key={key}>
-                                                <button value={d} onClick={CalendarClick}  className="calendar-day w-full h-full block flex justify-center items-start hover:bg-[--modal] sidebar-selected-btn">{d}</button>
+                                                <button value={d} onClick={CalendarClick}  className="calendar-day w-full h-full block flex justify-center items-start hover:bg-[--modal] bg-yellow-100">{d}</button>
                                             </td>
                                         )
                                     } else {
