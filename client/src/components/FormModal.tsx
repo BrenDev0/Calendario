@@ -29,7 +29,7 @@ const FormModal = () => {
     
     return (
         <div className="w-full h-full flex flex-col justify-center items-center absolute bg-[--modal]">
-            <form onSubmit={handleSubmit} className="h-3/4 w-1/2 bg-[--white] flex flex-col justify-around items-center rounded-2xl">
+            <form onSubmit={handleSubmit} className="lg:h-3/4 h-full lg:w-1/2 w-full bg-[--white] flex flex-col justify-around items-center rounded-2xl">
             <p className="text-[--grey]">{`${dia} / ${mes} / ${año}`}</p>
                 <section className="w-full h-[25%] flex justify-around items-center">
                     <div className="w-[45%] h-full flex flex-col justify-evenly items-center bg-[--forms] rounded-lg">
@@ -46,9 +46,9 @@ const FormModal = () => {
                 <section className="w-[95%] h-[35%] flex flex-col justify-around items-center bg-[--forms] rounded-lg">
                     <textarea className="w-[95%] h-[70%] p-4 rounded-lg" name="notes" placeholder="notas" id="notas"></textarea>
                 </section>
-                <section className="w-full h-[7%] flex justify-end items-center">
-                    <button type="submit" className="w-[15%] h-full bg-[--forms] mr-10 rounded">Agregar</button>
-                    <button className="w-[15%] h-full bg-[--forms] mr-10 rounded" onClick={() => setFormModal(formModal ? false : true) }>Cancelar</button>
+                <section className="w-full h-[7%] flex justify-center lg:justify-end items-center">
+                    <button type="submit" className="lg:w-[15%] p-5 lg:p-0 h-full bg-[--forms] mr-10 rounded">Agregar</button>
+                    <button className="lg:w-[15%] p-5 lg:p-0 h-full bg-[--forms] mr-10 rounded" onClick={() => setFormModal(formModal ? false : true) }>Cancelar</button>
                 </section>
             </form>
         </div>

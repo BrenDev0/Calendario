@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import { Evento } from '@/interface/types'
-import { checkMark, edit, exit, trash } from "../utils/icons"
+import { checkMark, edit, exit, eye, eyeSlash, trash } from "../utils/icons"
 import { useCalendar } from '@/context/CalendarContext'
-import { stringify } from 'querystring'
 
 const EventItem = ({item}: {item: Evento}) => {
     const { collectionRequest } = useCalendar();
@@ -15,6 +14,9 @@ const EventItem = ({item}: {item: Evento}) => {
     const [editStart, setEditStart] = useState<boolean>(false);
     const [end, setEnd] = useState<string>(item.end)
     const [editEnd, setEditEnd] = useState<boolean>(false);
+    const [viewNotes, setViewNotes] = useState<boolean>(false)
+    const [editNotes, setEditNotes] = useState<boolean>(false)
+    const [notes, setNotes] = useState<string>(item.notes)
 
     const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>, data: string ) => {
         const button = e.currentTarget as HTMLButtonElement;
@@ -60,7 +62,7 @@ const EventItem = ({item}: {item: Evento}) => {
     }
 
   return (
-    <div className="h-[20%] flex flex-col justify-around items-center border-b border-dashed border-[--grey]" key={item._id}>
+    <div className="flex flex-col py-5 justify-around items-center border-b border-dashed border-[--grey]" key={item._id}>
         <p className="flex justify-center items-center">{item.date}</p>
         <div className="w-full flex justify-between items-center">
             <div className="flex flex-col px-5">
@@ -120,7 +122,31 @@ const EventItem = ({item}: {item: Evento}) => {
                 </div>
             </div>
         </div>
-        <div className="w-full px-5 flex justify-end items-center">
+        {
+            viewNotes &&
+            <div className="w-full flex justify-center items-center pt-5">
+                {
+                    editNotes ? 
+                    <>
+                        <textarea value={notes} className='w-[75%] p-3 rounded-xl' rows={5} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setNotes(e.target.value)} id=""></textarea>
+                        <button value={item._id} name='notes' onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleSubmit(e, notes)} className="pl-2 text-green-400">{checkMark}</button>
+                        <button value={item._id} onClick={() => setEditNotes(false)} className="pl-2 text-red-400">{exit}</button>
+                    </>
+                    : 
+                    <>
+                        <p>{item.notes}</p>
+                        <button value={item._id} onClick={() => setEditNotes(true)} className="pl-2 text-blue-400">{edit}</button>
+                    </>
+                }
+            </div>
+            
+            
+
+        }
+        <div className="w-full px-5 pt-2 flex justify-between items-center">
+            {
+                viewNotes ? <button onClick={() => setViewNotes(false)} className='text-red-600'>{eyeSlash}</button> : <button onClick={() => setViewNotes(true)} className='text-purple-600'>{eye}</button>
+            }
             <button onClick={handleDelete} value={item._id} className='text-red-500'>{trash}</button>
         </div>
         </div>

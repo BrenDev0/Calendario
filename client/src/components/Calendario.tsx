@@ -8,6 +8,10 @@ const Calendario = () => {
     const { setTab } = useGlobal()
     const diasDeLaSemana = ["Dom" ,"Lun", "Mar", "Mie", "Jue" , "Vie", "Sab"]
     const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "julio", "Agosto", "septiembre", "Octubre", "Noviembre", "Diciembre"]
+    const años = [];
+    for(let i = año - 5; i < año + 5; i++ ){
+        años.push(i)
+    }
     
     const autoRender = () => {
         let autoLoad = new Calendar(mes, año).renderCalendar()
@@ -42,7 +46,7 @@ const Calendario = () => {
     }
 
     return (
-        <table className="w-[70%] h-[90%] table-fixed">
+        <table className="md:w-[70%] w-full lg:h-[90%] h-[45%] table-fixed">
             <caption className="mb-5">
                 <select className="w-[15%] h-[35px] mr-[40px] bg-[--forms] rounded cursor-pointer" value={mes} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setMes(parseInt(e.target.value))} name="mes">{meses.map((m: string) => {
                     return(
@@ -50,9 +54,13 @@ const Calendario = () => {
                     )
                 })}</select>
                 <select className="w-[15%] h-[35px] bg-[--forms] rounded cursor-pointer" value={año} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setAño(parseInt(e.target.value))} name="año">
-                    <option value="2023">2023</option>
-                    <option value="2024">2024</option>
-                    <option value="2025">2025</option>
+                    {
+                        años.map((item) => {
+                            return (
+                                <option key={item} value={item}>{item}</option>
+                            )
+                        })
+                    }
                 </select>
             </caption>
             <thead>

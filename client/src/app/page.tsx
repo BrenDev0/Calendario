@@ -9,7 +9,7 @@ export default function Home() {
   const { formModal} = useGlobal()
 
   return (
-    <main className="h-full flex items-center justify-around">
+    <main className="h-full flex flex-col items-center justify-around lg:flex-row">
       <SideBar />
       <Calendario />
       {

@@ -54,11 +54,11 @@ class Resource_Request:
     
     
     def update(self, _id, field, data):
-        fields = ["title", "location", "start", "end"]
+        fields = ["title", "location", "start", "end", "notes"]
         if field in fields:
             sql_update = f"""UPDATE Calendario SET {field} = (?) WHERE _id = (?)"""
         else:
-            return JSONResponse(content={"message": "Invaled Operation"})    
+            return JSONResponse(content={"message": f"Invaled Operation: {field}"})    
         
        
 

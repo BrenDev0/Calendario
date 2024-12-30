@@ -16,10 +16,11 @@ interface CalendarState {
     contenidoCalendario: Array<any>,
     setContenidoCalendario: React.Dispatch<SetStateAction<Array<any>>>,
     dataCalendario: Collection;
-    setDataCalendario: React.Dispatch<SetStateAction<Collection>>
-    collectionRequest: () => Promise<void>
-    resetCalendar: () => void
-
+    setDataCalendario: React.Dispatch<SetStateAction<Collection>>;
+    collectionRequest: () => Promise<void>,
+    resetCalendar: () => void,
+    isLoading: boolean,
+    setIsLoading: React.Dispatch<SetStateAction<boolean>>
 }
 
 const defaultValue: CalendarState = {
@@ -36,27 +37,35 @@ const defaultValue: CalendarState = {
     dataCalendario: {data: []},
     setDataCalendario: () => () => {throw new Error("No Context Provided")},
     collectionRequest: () => {throw new Error("No Context Provided")},
-    resetCalendar: () => {throw new Error("No Context Provided")}
+    resetCalendar: () => {throw new Error("No Context Provided")},
+    isLoading: true,
+    setIsLoading: () => {throw new Error("No Context Provided")},
 }
 
 const CalendarContext = createContext<CalendarState>(defaultValue)
 
 export const CalendarProvider = ({children}: {children: ReactNode}) => {
-    const [hoy, setHoy] = useState<string>(defaultValue.hoy)
-    const [dia, setDia] = useState<number>(defaultValue.dia)
-    const [mes, setMes] = useState<number>(defaultValue.mes)
-    const [año, setAño] = useState<number>(defaultValue.año)
-    const [contenidoCalendario, setContenidoCalendario] = useState<Array<any>>(defaultValue.contenidoCalendario)
-    const [dataCalendario, setDataCalendario] = useState<Collection>(defaultValue.dataCalendario)
+    const [hoy, setHoy] = useState<string>(defaultValue.hoy);
+    const [dia, setDia] = useState<number>(defaultValue.dia);
+    const [mes, setMes] = useState<number>(defaultValue.mes);
+    const [año, setAño] = useState<number>(defaultValue.año);
+    const [contenidoCalendario, setContenidoCalendario] = useState<Array<any>>(defaultValue.contenidoCalendario);
+    const [dataCalendario, setDataCalendario] = useState<Collection>(defaultValue.dataCalendario);
+    const [isLoading, setIsLoading] = useState<boolean>(defaultValue.isLoading)
 
     async function collectionRequest(){
         try {
+            !isLoading && setIsLoading(true)
             const res = await fetch(`http://localhost:8000/api/collection`);
             const collection = await res.json();
 
             setDataCalendario(collection)
         } catch (error) {
             console.log(error)
+        }
+
+        finally{
+            setIsLoading(false)
         }
     } 
 
@@ -85,6 +94,7 @@ export const CalendarProvider = ({children}: {children: ReactNode}) => {
         dataCalendario, setDataCalendario,
         collectionRequest,
         resetCalendar,
+        isLoading, setIsLoading
     }
 
     return (
