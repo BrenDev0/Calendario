@@ -21,7 +21,6 @@ const defaultValue: GlobalState = {
         const buttons = document.getElementsByClassName("sidebar-btn")
         
         for(let i = 0; i < buttons.length; i++){
-            console.log("forloop")
            buttons[i].className = buttons[i].className.replace(" sidebar-selected-btn", "")
         }
 

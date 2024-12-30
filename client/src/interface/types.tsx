@@ -3,8 +3,8 @@ export interface Evento {
     date: string,
     title: string,
     location: string,
-    start: number,
-    end: number,
+    start: string,
+    end: string,
     notes: string
 }
 

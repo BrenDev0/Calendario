@@ -9,6 +9,6 @@ class DataBase:
         conn.close()
 
     def create_table(self):
-        self.cur.execute("""CREATE TABLE IF NOT EXISTS Calendario ( _id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT, title TEXT, location TEXT, start TIME, end TIME, notes TEXT)""");
+        self.cur.execute("""CREATE TABLE IF NOT EXISTS Calendario ( _id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT, title TEXT, location TEXT, start TEXT, end TEXT, notes TEXT)""");
         return
 

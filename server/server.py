@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Form
+from fastapi import FastAPI, Form, Body
 from fastapi.middleware.cors import CORSMiddleware
 from config.Database import DataBase
 from classes.Collection_Request import Collection_Request
@@ -33,8 +33,8 @@ def root():
 def create_item(
     title: str = Form(...),
     location: str = Form(...),
-    start: int = Form(...),
-    end: int = Form(...),
+    start: str = Form(...),
+    end: str = Form(...),
     notes: str = Form(...),
     date: str = Form(...)
 
@@ -50,3 +50,8 @@ def get_item(_id):
 @app.delete("/api/resource/{_id}")
 def delete_item(_id):
     return Resource_Request().delete(_id)
+
+
+@app.put("/api/resource/{_id}/{field}")
+def update_item(_id, field, data: str = Body(...)):
+    return Resource_Request().update(_id, field, data)

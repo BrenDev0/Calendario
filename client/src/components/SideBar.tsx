@@ -11,7 +11,7 @@ const SideBar = () => {
     const{dia, mes, año, hoy, resetCalendar} = useCalendar()
 
     return (
-        <div className="w-[25%] h-[95%] h border-red border-2 border-solid">
+        <div className="w-[25%] h-[95%] border-red border-2 border-solid">
             <section className="h-[10%] flex justify-between items-center border-b-2 border-solid border[--grey]">
                 {
                     hoy === `${dia}/${mes}/${año}` ? <div className="sidebar-btn w-full h-full flex flex-col justify-center items-center text-[--grey]"></div> : <button onClick={handleSidebar} className="sidebar-btn w-full h-full flex flex-col justify-center items-center text-[--grey] sidebar-selected-btn">{`${dia}/${mes}/${año}`}</button>

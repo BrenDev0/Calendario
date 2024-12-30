@@ -10,7 +10,6 @@ const FormModal = () => {
         e.preventDefault();
         const form = e.target as HTMLFormElement
         const data = new FormData(form);
-        const date = new Date(dia, mes, año)
         data.append("date", `${dia}/${mes}/${año}`)
 
         try {
@@ -38,8 +37,10 @@ const FormModal = () => {
                         <input type="text" name="location" placeholder="ubicación" id="" className="w-[95%] h-[17%] pl-3 rounded" />
                     </div>
                     <div className="w-[45%] h-full flex flex-col justify-evenly items-center bg-[--forms] rounded-lg">
-                        <input type="number" name="start" placeholder="empieza" id="start" className="w-[95%] h-[17%] pl-3 rounded" />
-                        <input type="number" name="end" id="end" placeholder="termina" className="w-[95%] h-[17%] pl-3 rounded" />
+                        <label htmlFor="start">Empieza</label>
+                        <input type="time" name="start" placeholder="empieza" id="start" className="w-[95%] h-[17%] pl-3 rounded" />
+                        <label htmlFor="end">Termina</label>
+                        <input type="time" name="end" id="end" placeholder="termina" className="w-[95%] h-[17%] pl-3 rounded" />
                     </div>
                 </section>
                 <section className="w-[95%] h-[35%] flex flex-col justify-around items-center bg-[--forms] rounded-lg">
