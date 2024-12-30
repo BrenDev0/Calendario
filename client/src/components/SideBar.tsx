@@ -15,7 +15,7 @@ const SideBar = () => {
         <div className="lg:w-[25%] w-full lg:h-[95%] h-[45%] lg:order-first order-last">
             <section className="h-[10%] flex justify-between items-center border-b-2 border-solid border[--grey]">
                 {
-                    hoy === `${dia}/${mes}/${año}` ? <div className="sidebar-btn w-full h-full flex flex-col justify-center items-center text-[--grey]"></div> : <button onClick={handleSidebar} className="sidebar-btn w-full h-full flex flex-col justify-center items-center text-[--grey] sidebar-selected-btn">{`${dia}/${mes}/${año}`}</button>
+                    hoy === `${dia}/${mes}/${año}` ? <div className="sidebar-btn w-full h-full flex flex-col justify-center items-center text-[--grey]"></div> : <button onClick={() =>{handleSidebar; setTab(3)}} className="sidebar-btn w-full h-full flex flex-col justify-center items-center text-[--grey] sidebar-selected-btn">{`${dia}/${mes}/${año}`}</button>
                 }
                 <button onClick={(e: React.MouseEvent<HTMLButtonElement>) => {handleSidebar(e); setTab(2)}} className="sidebar-btn w-full h-full flex flex-col justify-center items-center text-[--grey] border-r border-l border-dashed border-[--grey]">{list}</button>
                 <button onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
