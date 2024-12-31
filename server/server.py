@@ -52,6 +52,6 @@ def delete_item(_id):
     return Resource_Request().delete(_id)
 
 
-@app.put("/api/resource/{_id}/{field}")
-def update_item(_id, field, data: str = Body(...)):
+@app.put("/api/resource/{_id}")
+def update_item(_id, data: str = Form(...), field: str = Form(...)):
     return Resource_Request().update(_id, field, data)

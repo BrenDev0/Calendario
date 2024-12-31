@@ -22,12 +22,15 @@ const EventItem = ({item}: {item: Evento}) => {
         const button = e.currentTarget as HTMLButtonElement;
         const id = button.value;
         const field = button.name;
+        const changes = new FormData()
+        changes.append("data",data)
+        changes.append("field", field)
 
         try {
-            await fetch(`http://localhost:8000/api/resource/${id}/${field}`,
+            await fetch(`http://localhost:8000/api/resource/${id}`,
                 {
                     method: "PUT",
-                    body: data
+                    body: changes
                 }
             );
 
